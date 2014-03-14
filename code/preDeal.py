@@ -5,24 +5,17 @@
 import re
 import csv
 
-config = {"src":"t_alibaba_data_test.csv","dst":"t_alibaba_data_rm_cn.csv"}
+config = {"src":"data/t_alibaba_data_test.csv","dst":"data/t_alibaba_data_rm_cn.csv"}
 
 def data_rm_cn(src,dst):
+    '''把visit_datetime中的5月6号这样中文日期格式转换为20130506'''
     src_text = open(src,"r").read()
     csvfile = file(dst, 'wb')
     fout = csv.writer(csvfile)
-#     fout = open(dst,"w")
 
-#     mouth_day = re.compile("\xe6\x9c\x88|\xe6\x97\xa5")
     mouth_day = re.compile(r"日|月")
     dst_text  = mouth_day.sub(",",src_text)
     dst_text  = re.sub(",\n","\n",dst_text) 
-     
-#     dst_text = '''10944750,13451,0,6,4
-# 10944750,13451,2,6,4
-# 10944750,13451,2,6,4
-# 10944750,8689,0,5,2
-# 10944750,26619,0,6,28'''
      
     dst_text_records = dst_text.split("\n")
     fout.writerow(dst_text_records[0].split(","))
